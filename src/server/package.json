@@ -1,6 +1,6 @@
 {
   "name": "vmi",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "OneCore's Virtual Machine Interface for Servers",
   "license": "APACHE-2.0",
   "author": "OneCore",
