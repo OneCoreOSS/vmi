@@ -1,0 +1,37 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Miscellaneous Options</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<div class="user-selection">
+			<label>UEFI Firmware</label>
+			<input id="newvm-uefi" type="checkbox"></input>
+		</div>
+		<div class="user-selection">
+			<label>Secure Boot</label>
+			<input id="newvm-secboot" type="checkbox"></input>
+		</div>
+		<div class="user-selection">
+			<label>TPM 2.0</label>
+			<input id="newvm-tpm" type="checkbox"></input>
+		</div>
+		<div class="user-selection">
+			<label>Virtual Battery</label>
+			<input id="newvm-battery" type="checkbox"></input>
+		</div>
+		<div class="user-selection">
+			<label>Apple SMC</label>
+			<input id="newvm-applesmc" type="checkbox"></input>
+		</div>
+		<div class="user-selection">
+			<label>Extra QEMU Parameters</label>
+			<input type="text" id="newvm-extracli"></input>
+		</div>
+	</div>
+	<div id="popup-footer">
+		<button class="popup-select-bttn" id="newvm-next-bttn">Next</button>
+	</div>
+</div>

@@ -1,0 +1,37 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Configure Hardware</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<div class="user-selection">
+			<label>Mouse I/O</label>
+			<select id="vm-new-select-mouse" name="newvm-mouse">
+				<option value="usb">USB</option>
+				<option value="ps2">PS/2</option>
+				<option value="none">None</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Keyboard I/O</label>
+			<select id="vm-new-select-kbd" name="newvm-kbd">
+				<option value="usb">USB</option>
+				<option value="ps2">PS/2</option>
+				<option value="none">None</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Network Adapter</label>
+			<select id="vm-new-select-net" name="newvm-net"></select>
+		</div>
+		<div class="user-selection">
+			<label>Graphics Adapter</label>
+			<select id="vm-new-select-graphics" name="newvm-graphics"></select>
+		</div>
+	</div>
+	<div id="popup-footer">
+		<button class="popup-select-bttn" id="newvm-next-bttn">Next</button>
+	</div>
+</div>

@@ -1,0 +1,40 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Upload a new installation source</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<div class="user-selection">
+			<label>File Type</label>
+			<select id="media-new-select-type" name="newmedia-type">
+				<option value="iso">CD Image (.ISO)</option>
+				<option value="floppy">Floppy Image</option>
+				<option value="disk">Disk Image</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Upload Source</label>
+			<select id="media-new-select-source" name="newmedia-source">
+				<option value="FILE">From Storage</option>
+				<option value="URL">From URL</option>
+			</select>
+		</div>
+		<div class="user-selection" id="newmedia-file-selection">
+			<label>Select File</label>
+			<input type="file" id="newmedia-upload">
+		</div>
+		<div class="user-selection" id="newmedia-url-selection" style="display:none">
+			<label>Select URL</label>
+			<input type="text" id="newmedia-url-upload">
+		</div>
+		<div id="media-new-statusdiv" class="centerhack" style="display:none">
+			<progress id="media-new-progressbar" value="0"></progress>
+			<a id="media-new-status"></a>
+		</div>
+	</div>
+	<div id="popup-footer">
+		<button class="popup-select-bttn" id="newmedia-upload-bttn">Next</button>
+	</div>
+</div>

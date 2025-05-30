@@ -1,0 +1,3 @@
+[submodule "src/websockify"]
+	path = src/websockify
+	url = https://github.com/novnc/websockify

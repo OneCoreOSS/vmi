@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>OneCore VMI</title>
+		<link rel="icon" href="/assets/vmi/favicon.png"/>
+		<link rel="stylesheet" href="/assets/styles.css">
+		<!-- link rel="stylesheet" href="/assets/xterm/xterm.css"/ -->
+		<!-- script src="/assets/xterm/xterm.js"></script -->
+	</head>
+	<body>
+		<div id="topbar">
+			<img id="logo-item" src="/assets/vmi/logo.svg"></img>
+			<div id="topbar-leftmost">
+				<a id="active-vm-txt">No Virtual Machines selected.</a>
+			</div>
+			<div id="topbar-rightmost" style="display:none;">
+				<button id="logout-bttn">Log Out</button>
+			</div>
+		</div>
+		<div id="sidebar">
+			<button class="flat-bttn" id="NewVMButton">+</button>
+			<button class="flat-bttn container-bttn" id="AddMediaButton">
+				<img class="contained-img svg-side" src="/assets/svg/dvd.svg"></img>
+			</button>
+			<div id="vm-list">
+				<!-- vmi vms would be added here with .js -->
+			</div>
+			<div class="bottom-side-section">
+				<button class="flat-bttn container-bttn" id="SettingsButton">
+					<img class="contained-img svg-side" src="/assets/svg/gears.svg"></img>
+				</button>
+			</div>
+			<div id="os-selection">
+				<div class="bottom-side-section">
+					<button class="flat-bttn container-bttn" id="Windows-VMListButton">
+						<img class="contained-img svg-side" src="/assets/svg/Windows.svg"></img>
+					</button>
+				</div>
+				<div class="bottom-side-section">
+					<button class="flat-bttn container-bttn" id="macOS-VMListButton">
+						<img class="contained-img svg-side" src="/assets/svg/Apple.svg"></img>
+					</button>
+				</div>
+				<div class="bottom-side-section">
+					<button class="flat-bttn container-bttn" id="Linux-VMListButton">
+						<img class="contained-img svg-side" src="/assets/svg/Linux.svg"></img>
+					</button>
+				</div>
+				<div class="bottom-side-section">
+					<button class="flat-bttn" id="Other-VMListButton">…</button>
+				</div>
+			</div>
+		</div>
+		<div id="content">
+			<div id="vm-actions-list"></div>
+			<div class="vertical-separator"></div>
+			<div id="vmview">
+				<a id="vmview-infostatus">No Virtual Machines selected.</a>
+				<!-- xtermjs will go here when serial support is added -->
+				<!-- div id="VMCLI-Display"></div -->
+			</div>
+		</div>
+		<div id="glass-back-cover"></div>
+		<div id="attached-sidebar" class="hidden">
+			<div id="attached-sidebar-title">
+				<a id="attached-sidebar-closebttn" class="nonbttn-selectable"><-</a>
+				<h4 id="attached-sidebar-titletxt">Windows Virtual Machines</h4>
+			</div>
+		</div>
+		<!-- vmi assets scripts load beyond this point -->
+		<script src="/assets/js/global.js"></script>
+		<script src="/assets/js/popup.js"></script>
+		<script src="/assets/js/vmipopups.js"></script>
+		<script src="/assets/js/initvmi.js"></script>
+	</body>
+</html>

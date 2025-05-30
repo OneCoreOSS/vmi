@@ -1,0 +1,27 @@
+{
+  "name": "vmi",
+  "version": "1.0.0",
+  "description": "OneCore's Virtual Machine Interface for Servers",
+  "license": "APACHE-2.0",
+  "author": "OneCore",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "dependencies": {
+    "@xterm/xterm": "^5.5.0",
+    "argon2": "^0.43.0",
+    "axios": "^1.9.0",
+    "express": "^5.1.0",
+    "express-rate-limit": "^7.5.0",
+    "helmet": "^8.1.0",
+    "http-proxy-middleware": "^3.0.5",
+    "morgan": "^1.10.0",
+    "multer": "^2.0.0",
+    "os": "^0.1.2",
+    "path": "^0.12.7",
+    "shell-quote": "^1.8.2",
+    "uuid": "^11.1.0"
+  }
+}

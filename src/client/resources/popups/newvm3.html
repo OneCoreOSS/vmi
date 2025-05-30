@@ -1,0 +1,44 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Configure Storage</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<div class="user-popup-mainsel">
+			<input name="newvm-mainsel" id="newvm-mainsel-newdisk" type="checkbox" checked="true"></input>
+			<h3>Create new disk</h3>
+		</div>
+		<div id="newvm-diskcreate-listing" style="display:contents">
+			<div class="user-selection">
+				<label>Disk Name</label>
+				<input type="text" id="newdisk-name">
+			</div>
+			<div class="user-selection">
+				<label>Image File Format</label>
+				<select id="newvm-disk-select-type" name="newvm-disk-type">
+					<option value="qcow2">QCOW2</option>
+					<option value="vhdx">VHDX</option>
+					<option value="vdi">VDI</option>
+					<option value="vmdk">VMDK</option>
+					<option value="parallels">Parallels</option>
+					<option value="raw">Raw</option>
+				</select>
+			</div>
+			<div class="user-selection">
+				<label id="newvm-disk-size-count">Size in GB</label>
+				<input type="range" id="newvm-disk-size" name="newvm-disk-size" min="2" max="4096" step="2" />
+			</div>
+		</div>
+		<div class="user-popup-mainsel">
+			<input name="newvm-mainsel" id="newvm-mainsel-fromvmi" type="checkbox"></input>
+			<h3>Select from VMI</h3>
+		</div>
+		<div id="vmi-media-list" style="display:none"></div>
+	</div>
+	<div id="popup-footer">
+		<button class="split-bttn-leftside popup-select-bttn" id="newvm-skipdisk-bttn">Skip Storage Setup</button>
+		<button class="split-bttn-rightside popup-select-bttn" id="newvm-createdisk-bttn">Next</button>
+	</div>
+</div>

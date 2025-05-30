@@ -1,0 +1,20 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Delete Virtual Machine</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<p>WARNING: Deleting a Virtual Machine is permanent and CANNOT BE UNDONE !</p>
+		<p>To confirm deletion, please type '<a id="delvm-vmname"></a>'</p>
+		<div class="user-selection">
+			<label>Confirm Name</label>
+			<input id="delvm-vmname-user" type="text"></input>
+		</div>
+	</div>
+	<div id="popup-footer">
+		<button id="delvm-cancel-bttn" class="split-bttn-leftside popup-select-bttn">Cancel</button>
+		<button id="delvm-delete-bttn" class="split-bttn-rightside popup-select-bttn">Delete VM</button>
+	</div>
+</div>

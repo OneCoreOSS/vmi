@@ -1,0 +1,58 @@
+<div id="popup-window" class="hidden">
+	<div id="popup-title">
+		<a>Create New Virtual Machine</a>
+		<button id="popup-close-bttn" class="action-bttn">
+			<img src="/assets/svg/close.svg"></img>
+		</button>
+	</div>
+	<div id="popup-content">
+		<div class="user-selection">
+			<label>VM Name</label>
+			<input type="text" id="newvm-name"></input>
+		</div>
+		<div class="user-selection">
+			<label>OS Family</label>
+			<select id="vm-new-select-family" name="newvm-family">
+				<option value="Windows">Windows</option>
+				<option value="macOS">macOS</option>
+				<option value="Linux">Linux</option>
+				<option value="Other">Other OS</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Hypervisor Acceleration</label>
+			<select id="vm-new-select-accel" name="newvm-accel">
+				<option value="kvm">KVM (Linux Host)</option>
+				<option value="whpx">WHPX (Windows Host)</option>
+				<option value="hvf">HVF (macOS Host)</option>
+				<option value="tcg">TCG (All Hosts , All Architectures)</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Architecture</label>
+			<select id="vm-new-select-arch" name="newvm-arch">
+				<option value="x86_64">X86_64 (AMD64)</option>
+				<option value="aarch64">AARCH64 (ARM64)</option>
+			</select>
+		</div>
+		<div class="user-selection">
+			<label>Machine Type</label>
+			<select id="vm-new-select-machine" name="newvm-machine"></select>
+		</div>
+		<div class="user-selection">
+			<label>Processor</label>
+			<select id="vm-new-select-cpu" name="newvm-cpu"></select>
+		</div>
+		<div class="user-selection">
+			<label id="newvm-smp-count">Processor Cores</label>
+			<input type="range" id="newvm-smp" name="newvm-smp" min="1" max="8" />
+		</div>
+		<div class="user-selection">
+			<label id="newvm-ram-count">RAM</label>
+			<input type="range" id="newvm-ram" name="newvm-ram" min="8" max="8192" step="8" />
+		</div>
+	</div>
+	<div id="popup-footer">
+		<button class="popup-select-bttn" id="newvm-next-bttn">Next</button>
+	</div>
+</div>
