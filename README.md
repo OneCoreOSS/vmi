@@ -6,7 +6,7 @@
 > 
 > OneCore VMI is also under active development, meaning it may change in the coming months.
 > 
-> TL;DR: Do not expect a fully finished or stable.
+> TL;DR: Do not expect a fully finished or stable product.
 
 This repository hosts the content for OneCore VMI, including Client and Server code.
 

@@ -1,0 +1,9 @@
+This project includes third-party software with their own respective licenses:
+
+1. websockify (https://github.com/novnc/websockify)
+	Location: src/websockify
+	License File: src/websockify/COPYING
+
+2. noVNC (https://github.com/novnc/noVNC)
+	Location: src/client/novnc
+	License File: misc/noVNC-LICENSE.txt
