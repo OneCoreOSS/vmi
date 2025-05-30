@@ -133,7 +133,7 @@ while :; do
 
 			cat <<-EOS | sudo tee "$VMI_DIR/runvmi.sh" >/dev/null
 			#!/bin/sh
-			VMIPATH="$VMI_DIR/content" node "$VMI_DIR/srv/index.js" --web-directory="$VMI_DIR/web" --websockify-directory="$VMI_DIR/websockify" --certkey="$VMI_DIR/srv/certs/key.pem" --certfile="$VMI_DIR/srv/certs/cert.pem" --log-directory="$LOG_DIR" $VMI_HTTPS_PORT $VMI_HTTP_PORT
+			VMIPATH="$VMI_DIR/content" node "$VMI_DIR/srv/index.js" --web-directory="$VMI_DIR/web" --certkey="$VMI_DIR/srv/certs/key.pem" --certfile="$VMI_DIR/srv/certs/cert.pem" --log-directory="$LOG_DIR" --websockify-directory="$VMI_DIR/websockify" $VMI_HTTPS_PORT $VMI_HTTP_PORT
 			EOS
 			sudo chmod +x "$VMI_DIR/runvmi.sh"
 

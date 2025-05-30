@@ -18,7 +18,8 @@ const argv = require('minimist')(process.argv.slice(2), {
 		'certkey': 'CK',
 		'certfile': 'CF',
 		'no-http': 'NHTTP',
-		'log-directory': 'LOGDIR'
+		'log-directory': 'LOGDIR',
+		'websockify-directory': 'WSDIR'
 	},
 	unknown: (arg) => {
 		return true;
@@ -26,7 +27,7 @@ const argv = require('minimist')(process.argv.slice(2), {
 });
 
 if (!argv.WD || !argv.CK || !argv.CF) {
-	console.error(`usage: ./index.js --web-directory=<path> --certkey=<path> --certfile=<path> [--log-directory=<path>] [--no-http] [httpsPort] [httpPort]`);
+	console.error(`usage: ./index.js --web-directory=<path> --certkey=<path> --certfile=<path> [--log-directory=<path>] [--websockify-directory=<path>] [--no-http] [httpsPort] [httpPort]`);
 	return;
 }
 
@@ -35,6 +36,7 @@ const SSL_CertKey = path.resolve(argv.CK);
 const SSL_CertFile = path.resolve(argv.CF);
 const NoHTTP = (argv.NHTTP == "on");
 const LogDir = argv.LOGDIR ? require('path').resolve(argv.LOGDIR) : '/var/log/vmi';
+const WSockifyDir = argv.WSDIR ? require('path').resolve(argv.WSDIR) : '/vmi/websockify';
 
 const HTTPSPort = Number(argv._[0] ?? 443);
 const HTTPPort  = Number(argv._[1] ?? 80);
@@ -58,7 +60,7 @@ const WSockify_Args = [`--cert=${SSL_CertFile}`, `--key=${SSL_CertKey}`, `--toke
 const WSockify_Logs = fs.openSync(path.resolve(LogDir, 'wsockify.log'), 'a');
 
 const WSockify_Child = spawn('python3', ['-m', 'websockify', ...WSockify_Args], {
-	cwd: "/tmp/wsockify",
+	cwd: WSockifyDir,
 	stdio: ["ignore", WSockify_Logs, WSockify_Logs],
 	detached: false
 });
