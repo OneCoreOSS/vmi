@@ -36,7 +36,6 @@ function ShowVMList(OS){
 				document.getElementById("active-vm-txt").innerText = VMI_VMList[i].Name;
 				const VMIToken = localStorage.getItem("VMIToken") ?? sessionStorage.getItem("VMIToken");
 				const TkHash = await StrToSHA256(VMIToken);
-				console.log(`DEBUG: vnc url is https://onecore.int/novnc/vnc.html?path=websockify?token=${TkHash}-${VMI_VMList[i].VMUUID}`);
 
 				document.getElementById("vm-actions-list").replaceChildren();
 				/* init new vm action buttons */

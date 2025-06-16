@@ -202,6 +202,16 @@ button:not(.popup-select-bttn):active {
 	flex: 1;
 }
 
+.popup-inner-bttn {
+	background-color: var(--onecore-accent);
+	padding: 0.5rem;
+	height: 100%;
+	cursor: pointer;
+	width: 50%;
+	margin: auto;
+	border-radius: var(--vmi-radius);
+}
+
 #popup-close-bttn img {
 	object-fit: contain;
 	height: 100%;
@@ -389,7 +399,7 @@ textarea {
 	font-family: "GeistMedium", Arial, sans-serif;
 }
 
-#editvm-misc-items {
+#editvm-misc-items, #editvm-storage-items {
 	display: flex;
 	flex-direction: column;
 	gap: 0.5rem;
@@ -544,6 +554,11 @@ progress {
 .nonbttn-selectable {
 	cursor: pointer;
 	user-select: none;
+}
+
+.user-advanced-select {
+	text-decoration: underline;
+	cursor: pointer;
 }
 
 #logout-bttn {

@@ -99,6 +99,55 @@ function CreateItem(label,value,id){
 	document.getElementById("editvm-misc-items").appendChild(Div);
 }
 
+function MediaLoader(MediaList, ContainerElement){
+	const VMIMedias = [];
+	const IfType = {
+		"ISOs": ["CDROM","ide","%VMI:/media/iso"],
+		"Disks": ["Disk","virtio","%VMI:/media/disk"],
+		"Floppys": ["Floppy","floppy","%VMI:/media/floppy"]
+	}
+	Object.entries(MediaList).forEach(([Type, FileArr]) => {
+		FileArr.forEach(Filename => {
+			const MediaButton = document.createElement('button');
+			const MediaButtonImg = document.createElement('img');
+			const MediaButtonTxt = document.createElement('a');
+			MediaButtonTxt.innerText = Filename;
+			MediaButtonImg.alt = Type;
+			MediaButtonImg.className = "contained-img svg-side";
+			MediaButtonImg.style.maxHeight = "25%";
+			if(Type == "ISOs") MediaButtonImg.src = "/assets/svg/dvd.svg";
+			else if(Type == "Floppys") MediaButtonImg.src = "/assets/svg/floppy.svg";
+			else if(Type == "Disks") MediaButtonImg.src = "/assets/svg/disk.svg";
+			MediaButton.className = "grid-listing-bttn";
+			MediaButton.appendChild(MediaButtonImg);
+			MediaButton.appendChild(MediaButtonTxt);
+			MediaButton.addEventListener("click", function(){
+				if(this.getAttribute("vmi-media-index")){
+					const VMIMediaIndex = parseInt(this.getAttribute("vmi-media-index"));
+					VMIMedias.splice(VMIMediaIndex, 1);
+					this.removeAttribute("vmi-media-index");
+					this.style.border = "";
+					Array.from(document.getElementById('vmi-media-list').children).forEach(MediaBttn => {
+						if(MediaBttn.hasAttribute('vmi-media-index')) {
+							const ChildIndex = parseInt(MediaBttn.getAttribute('vmi-media-index'));
+							if(ChildIndex > VMIMediaIndex) {
+								MediaBttn.setAttribute('vmi-media-index', ChildIndex - 1);
+							}
+						}
+					});
+				} else {
+					this.setAttribute("vmi-media-index",VMIMedias.length);
+					VMIMedias.push([IfType[Type][0], IfType[Type][1], `${IfType[Type][2]}/${Filename}`]);
+					this.style.border = "1px solid #0F0";
+				}
+			});
+			ContainerElement.appendChild(MediaButton);
+		});
+	});
+
+	return VMIMedias;
+}
+
 const VMI_Popups = {
 	"auth": function(){
 		document.getElementById("auth-login-bttn").addEventListener("click", async function(){
@@ -200,7 +249,7 @@ const VMI_Popups = {
 
 	"newvm3": async function(){
 		/* setup disk info for this vm */
-		const VMIMedias = [];
+		let VMIMedias = [];
 		document.getElementById("newdisk-name").value = `VMIDisk for ${CurrentVMConfig.Base.Name}`;
 		document.getElementById("newvm-disk-size-count").innerText = `Disk Size (${document.getElementById("newvm-disk-size").value} GB)`;
 
@@ -227,7 +276,7 @@ const VMI_Popups = {
 			const res = await fetch('/api/v1/get-media', {
 				method: 'GET',
 				headers: {
-					'Authorization': 'Bearer ' + VMIToken
+					'Authorization': `Bearer ${VMIToken}`
 				}
 			});
 
@@ -236,51 +285,8 @@ const VMI_Popups = {
 			}
 
 			const MediaList = await res.json();
-			const IfType = {
-				"ISOs": ["CDROM","ide","%VMI:/media/iso"],
-				"Disks": ["Disk","virtio","%VMI:/media/disk"],
-				"Floppys": ["Floppy","floppy","%VMI:/media/floppy"]
-			}
-			console.log(MediaList);
-			Object.entries(MediaList).forEach(([Type, FileArr]) => {
-				FileArr.forEach(Filename => {
-					const MediaButton = document.createElement('button');
-					const MediaButtonImg = document.createElement('img');
-					const MediaButtonTxt = document.createElement('a');
-					MediaButtonTxt.innerText = Filename;
-					MediaButtonImg.alt = Type;
-					MediaButtonImg.className = "contained-img svg-side";
-					MediaButtonImg.style.maxHeight = "25%";
-					if(Type == "ISOs") MediaButtonImg.src = "/assets/svg/dvd.svg";
-					else if(Type == "Floppys") MediaButtonImg.src = "/assets/svg/floppy.svg";
-					else if(Type == "Disks") MediaButtonImg.src = "/assets/svg/disk.svg";
-					MediaButton.className = "grid-listing-bttn";
-					MediaButton.appendChild(MediaButtonImg);
-					MediaButton.appendChild(MediaButtonTxt);
-					MediaButton.addEventListener("click", function(){
-						if(this.getAttribute("vmi-media-index")){
-							const VMIMediaIndex = parseInt(this.getAttribute("vmi-media-index"));
-							VMIMedias.splice(VMIMediaIndex, 1);
-							this.removeAttribute("vmi-media-index");
-							this.style.border = "";
-							Array.from(document.getElementById('vmi-media-list').children).forEach(MediaBttn => {
-								if(MediaBttn.hasAttribute('vmi-media-index')) {
-									const ChildIndex = parseInt(MediaBttn.getAttribute('vmi-media-index'));
-									if(ChildIndex > VMIMediaIndex) {
-										MediaBttn.setAttribute('vmi-media-index', ChildIndex - 1);
-									}
-								}
-							});
-						} else {
-							this.setAttribute("vmi-media-index",VMIMedias.length);
-							VMIMedias.push([IfType[Type][0], IfType[Type][1], `${IfType[Type][2]}/${Filename}`]);
-							this.style.border = "1px solid #0F0";
-						}
-					});
-					document.getElementById('vmi-media-list').appendChild(MediaButton);
-				});
-			});
-
+			console.log(`[OneCore VMI DEBUG] : MediaList % ${MediaList}`);
+			VMIMedias = MediaLoader(MediaList, document.getElementById("vmi-media-list"));
 		} catch (err) {
 			throw new Error(`[OneCore VMI] : Network/Parsing Error : ${err}`);
 		}
@@ -529,43 +535,113 @@ const VMI_Popups = {
 	"editvm": async function(Args){
 		// Args[0] : VMUUID
 		// Args[1] : VMName
-		console.log(Args[0])
-		const VMIToken = localStorage.getItem("VMIToken") ?? sessionStorage.getItem("VMIToken");
-		const res = await fetch('/api/v1/get-vminfo', {
-			method: 'GET',
-			headers: {
-				'Authorization': `Bearer ${VMIToken}`,
-				'VMUUID': Args[0]
-			}
-		});
 
-		if (!res.ok) {
-			throw new Error(`[OneCore VMI] : Could not get VM Info : ${res.status}`);
+		/* load the vm info first */
+		const VMIToken = localStorage.getItem("VMIToken") ?? sessionStorage.getItem("VMIToken");
+		try {
+			const res = await fetch('/api/v1/get-vminfo', {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${VMIToken}`,
+					'VMUUID': Args[0]
+				}
+			});
+
+			if (!res.ok) {
+				throw new Error(`[OneCore VMI] : Could not get VM Info : ${res.status}`);
+			}
+
+			const VMInfo = await res.json();
+			console.log('VM Info:', VMInfo);
+
+			CurrentVMConfig.Base = VMInfo.Base;
+			CurrentVMConfig.Hardware = VMInfo.Hardware;
+			CurrentVMConfig.Storage = VMInfo.Storage;
+			CurrentVMConfig.Misc = VMInfo.Misc;
+			CurrentVMConfig.ExtraQEMUParams = VMInfo.ExtraQEMUParams;
+
+			/* exclude these from the config since we dont want to handle them */
+			const ExcludeBase = ["Owners","Name","OSFamily"];
+
+			Object.keys(VMInfo).forEach(function(section){
+				if (section==="Storage") return;
+				var content = VMInfo[section];
+				if (typeof content==="object" && !Array.isArray(content)) {
+					Object.keys(content).forEach(function(key) {
+						if (section==="Base" && ExcludeBase.indexOf(key) >- 1) return;
+						CreateItem(key,content[key],key);
+					});
+				} else {
+					CreateItem(section,content,section);
+				}
+			});
+
+			const IfTypes = {
+				"Disk": ["virtio","ide","nvme","scsi","sd"],
+				"CDROM": ["ide","scsi"],
+				"Floppy": ["floppy"]
+			}
+
+			Object.keys(VMInfo.Storage).forEach(function(Storage,i){
+				const StorageInfo = VMInfo.Storage[i];
+				const UserSelect = document.createElement("div");
+				const USLabel = document.createElement("label");
+				const USSelect = document.createElement("select");
+
+				const PrettyName = StorageInfo[2].slice(StorageInfo[2].lastIndexOf('/') + 1, StorageInfo[2].lastIndexOf('.'));
+				UserSelect.className = "user-selection";
+				USLabel.innerText = `(${StorageInfo[0]}) ${PrettyName}`;
+
+
+				/* populate IfType accordingly */
+				IfTypes[StorageInfo[0]].forEach(function(IfType){
+					const IfTypeOpt = document.createElement("option");
+					IfTypeOpt.value = IfType;
+					IfTypeOpt.innerText = IfType;
+
+					USSelect.appendChild(IfTypeOpt);
+				});
+				USSelect.value = CurrentVMConfig.Storage[i][1];
+
+				USSelect.addEventListener("change",function(){
+					CurrentVMConfig.Storage[i][1] = USSelect.value;
+				});
+
+				UserSelect.appendChild(USLabel);
+				UserSelect.appendChild(USSelect);
+
+				document.getElementById("editvm-storage-items").appendChild(UserSelect);
+				console.log(`${VMInfo.Storage[i]}`)
+			});
+			const AddStorageBttn = document.createElement("button");
+			AddStorageBttn.innerText = "Add new storage";
+			AddStorageBttn.className = "popup-inner-bttn";
+			document.getElementById("editvm-storage-items").appendChild(AddStorageBttn);
+		} catch (err) {
+			throw new Error(`[OneCore VMI] : Network/Parsing Error : ${err}`);
 		}
 
-		const VMInfo = await res.json();
-		console.log('VM Info:', VMInfo);
+		/* and then load the storage info */
+		let VMIMedias = [];
 
-		CurrentVMConfig.Base = VMInfo.Base;
-		CurrentVMConfig.Hardware = VMInfo.Hardware;
-		CurrentVMConfig.Storage = VMInfo.Storage;
-		CurrentVMConfig.Misc = VMInfo.Misc;
-		CurrentVMConfig.ExtraQEMUParams = VMInfo.ExtraQEMUParams;
+		try {
+			const res = await fetch('/api/v1/get-media', {
+				method: 'GET',
+				headers: {
+					'Authorization': `Bearer ${VMIToken}`
+				}
+			});
 
-		var excludeBase = ["Owners","Name","OSFamily"];
-
-		Object.keys(VMInfo).forEach(function(section){
-			if (section==="Storage") return;
-			var content = VMInfo[section];
-			if (typeof content==="object" && !Array.isArray(content)) {
-				Object.keys(content).forEach(function(key) {
-					if (section==="Base" && excludeBase.indexOf(key) >- 1) return;
-					CreateItem(key,content[key],key);
-				});
-			} else {
-				CreateItem(section,content,section);
+			if (!res.ok) {
+				throw new Error(`[OneCore VMI] : Fetching media failed : ${res.status}`);
 			}
-		});
+
+			const MediaList = await res.json();
+			console.log(`[OneCore VMI DEBUG] : MediaList % ${JSON.stringify(MediaList)}`);
+			VMIMedias = MediaLoader(MediaList, document.getElementById("vmi-media-list"));
+		} catch (err) {
+			throw new Error(`[OneCore VMI] : Network/Parsing Error : ${err}`);
+		}
 
 		document.getElementById("editvm-apply-bttn").addEventListener("click", async function(){
 			this.disabled = true;
@@ -583,7 +659,7 @@ const VMI_Popups = {
 			const res = await fetch('/api/v1/edit-vm', {
 				method: 'POST',
 				headers: {
-					'Authorization': 'Bearer ' + VMIToken,
+					'Authorization': `Bearer ${VMIToken}`,
 					'Content-Type': 'application/json'
 				},
 				body: JSON.stringify({ VMUUID: Args[0], VMInfo: CurrentVMConfig })
