@@ -141,9 +141,9 @@ const VMI_Popups = {
 		});
 		document.getElementById("newvm-smp").max = HostSpecs.MaxSMP;
 		document.getElementById("newvm-ram").max = HostSpecs.MaxRAM;
-		document.getElementById("newvm-smp-count").innerText = `Processor Cores (${document.getElementById("newvm-smp").value})`;
+		document.getElementById("newvm-smp-count").innerText = `${document.getElementById("newvm-smp").value}`;
 		document.getElementById("newvm-smp").addEventListener("input",function(){
-			document.getElementById("newvm-smp-count").innerText = `Processor Cores (${document.getElementById("newvm-smp").value})`;
+			document.getElementById("newvm-smp-count").innerText = `${document.getElementById("newvm-smp").value}`;
 		});
 		document.getElementById("newvm-next-bttn").addEventListener("click",function(){
 			if(document.getElementById("newvm-name").value.length>0){
@@ -177,7 +177,7 @@ const VMI_Popups = {
 					break;
 				}
 			}
-			RAMValue.innerText = `RAM (${value} MB)`;
+			RAMValue.innerText = `${value} MB`;
 			RAMSlider.value = value;
 		}
 		RAMSlider.addEventListener("input", () => {
